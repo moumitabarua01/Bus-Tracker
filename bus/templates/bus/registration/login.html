@@ -1,0 +1,20 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'bus/registration/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="shadow-wrap">
+    <div class="form-wrap">
+        <h3 style="color: white;">Log in</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit">Submit</button>
+        </form>
+        <a class="signup-link" href= "{% url 'signup' %}">Sign up</a>
+    </div>
+</div>
+{% endblock %}

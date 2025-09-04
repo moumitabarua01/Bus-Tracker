@@ -1,0 +1,109 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #879eb3;
+}
+
+/* Navbar Styling */
+.navbar {
+    padding: 10px 20px;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Navbar Buttons */
+.navbar .btn {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+/* Search Bar */
+.form-control {
+    width: 100%;
+    max-width: 250px;
+}
+
+/* Carousel Styling */
+.carousel-inner img {
+    max-width: 90%;
+    height: auto;
+    margin: auto;
+    border-radius: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .navbar .navbar-toggler {
+        border: none;
+        outline: none;
+    }
+    
+    .navbar-collapse {
+        text-align: center;
+        background-color: #17a2b8; /* Same as bg-info */
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .navbar .btn {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .form-control {
+        max-width: 200px;
+    }
+
+    .carousel-inner img {
+        max-width: 100%;
+        padding: 10px;
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .navbar .btn {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .form-control {
+        max-width: 150px;
+    }
+
+    .carousel-inner img {
+        max-width: 100%;
+        padding: 5px;
+        border-radius: 10px;
+    }
+}
+
+.carousel-inner img {
+    border-radius: 20px !important; /* Ensures rounded corners */
+    overflow: hidden; /* Prevents padding from affecting the rounded corners */
+}
+

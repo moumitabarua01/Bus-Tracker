@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'bus/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<!-- <img src="static/schedule.png" alt="bus schedule">
+<img src="schedule.png" class="d-block w-100 mx-auto p-3 rounded-5 overflow-hidden" alt="bus image">
+<div class="carousel-item active"> -->
+<div>
+    <img src="{% static 'bus/registration/schedule.png' %}" class="d-block mx-auto p-5 rounded-5 overflow-hidden w-50"
+        alt="bus image">
+</div>
+
+
+<!-- <img src="{% static 'schedule.png' %}" alt="bus schedule"> -->
+
+<hr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Schedule</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: sans-serif; /* Use a suitable font */
+        }
+        .table-responsive {
+            overflow-x: auto; /* Enable horizontal scrolling if needed */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="mt-4 text-center">Bus Schedule</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>Vehicle Type</th>
+                    <th>Departure Point</th>
+                    <th>Departure Time</th>
+                    <th>Destination</th>
+                    <th>Arrival Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="5">Minibus</td>
+                    <td>Mymensingh Town Hall </td>
+                    <td>8:20 AM (Teachers/Staff)</td>
+                    <td rowspan="5">University Campus</td>
+                    <td>7:00 AM (Teachers/Staff)</td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Town Hall </td>
+                    <td>9:30 AM (Teachers)</td>
+                    <td>8:00 AM (Teachers/Staff)</td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Town Hall </td>
+                    <td>7:00 PM (Teachers/Staff)</td>
+                    <td>2:10 PM (Teachers)</td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Town Hall </td>
+                    <td>8:10 PM (Teachers/Staff)</td>
+                    <td>5:10 PM (Teachers/Staff)</td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Town Hall </td>
+                    <td>7:50 AM (Employees)</td>
+                    <td>5:10 PM (Employees)</td>
+                </tr>
+                <tr>
+                    <td>Microbus</td>
+                    <td>Trishal Thana</td>
+                    <td>8:45 AM (Staff)</td>
+                    <td>University Campus</td>
+                    <td>5:10 PM (Teachers/Staff)</td>
+                </tr>
+                <tr>
+                    <td>Microbus</td>
+                    <td>Trishal Thana</td>
+                    <td>9:15 AM (Teachers)</td>
+                    <td>University Campus</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="7">Students' Bus</td>
+                    <td>Mymensingh Road & Public Works Office</td>
+                    <td>8:00 AM</td>
+                    <td rowspan="7">University Campus</td>
+                    <td>12:30 PM</td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Road & Public Works Office</td>
+                    <td>8:45 AM</td>
+                    <td>2:15 PM</td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Road & Public Works Office</td>
+                    <td>9:45 AM</td>
+                    <td>3:15 PM</td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Road & Public Works Office</td>
+                    <td>10:45 AM</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Road & Public Works Office</td>
+                    <td>2:00 PM</td>
+                    <td>4:15 PM</td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Road & Public Works Office</td>
+                    <td>6:00 PM</td>
+                    <td>5:15 PM</td>
+                </tr>
+                <tr>
+                    <td>Mymensingh Road & Public Works Office</td>
+                    <td>7:00 PM</td>
+                    <td>8:15 PM</td>
+                </tr>
+                <tr>
+                    <td>Library/Medical Center & Students (Combined Bus)</td>
+                    <td></td>
+                    <td>9:10 PM</td>
+                    <td></td>
+                    <td>8:15 PM</td>
+                </tr>
+                <tr>
+                    <td>Bus (Combined)</td>
+                    <td>Valuka</td>
+                    <td>10:00 AM</td>
+                    <td>University Campus</td>
+                    <td>2:30 PM</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+{% endblock %}
