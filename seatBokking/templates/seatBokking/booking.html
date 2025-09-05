@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    .bus-cabin { display: grid; grid-template-columns: repeat(5, 56px); gap: 12px; justify-content: center; }
+    .seat { width: 56px; height: 56px; border-radius: 10px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:600; }
+    .seat.available { background:#ffffff; box-shadow: 0 4px 16px rgba(16,24,40,.08); }
+    .seat.selected { background: linear-gradient(90deg, var(--btn-grad-start), var(--btn-grad-end)); color:#fff; }
+    .seat.booked { background:#e5e7eb; color:#9ca3af; cursor:not-allowed; text-decoration: line-through; }
+    .aisle { grid-column: 3; }
+    .legend span { display:inline-block; width:18px; height:18px; border-radius:4px; margin-right:8px; vertical-align:middle; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="fw-bold mb-1">Book Your Seat</h2>
+    <p class="text-muted">Trip: {{ trip.name }} — {{ trip.date }}</p>
+    {% csrf_token %}
+
+    {% if existing_booking %}
+    <div class="alert alert-info" role="alert">
+        You have already booked <strong>seat {{ existing_booking.seat_number }}</strong> for this trip.
+    </div>
+    {% endif %}
+    <div id="receipt" class="alert alert-success d-none" role="alert"></div>
+
+    <div class="my-4 d-flex justify-content-center">
+        <div class="bus-cabin" id="busCabin"></div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center gap-4 legend">
+        <div><span style="background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08)"></span> Available</div>
+        <div><span style="background:#e5e7eb"></span> Booked</div>
+        <div><span style="background: linear-gradient(90deg, var(--btn-grad-start), var(--btn-grad-end));"></span> Selected</div>
+    </div>
+
+    <div class="text-center mt-4">
+        <button id="confirmBtn" class="btn btn-primary btn-lg" disabled>Confirm Booking</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const tripId = {{ trip.id }};
+        const rows = 10; // 10 rows
+        const columns = 4; // 2 + aisle + 2 visual
+        const cabin = document.getElementById('busCabin');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const receipt = document.getElementById('receipt');
+        let selectedSeat = null;
+        const userHasBooking = {{ existing_booking|yesno:'true,false' }};
+
+        function seatCode(r, c) {
+            // Seat numbers like A1, A2, B1, B2 (left) and A3, A4 (right)
+            const rowLetter = String.fromCharCode('A'.charCodeAt(0) + r);
+            const colNumber = c < 2 ? c + 1 : c; // skip aisle index 2
+            return rowLetter + colNumber;
+        }
+
+        function renderCabin(bookedSet) {
+            cabin.innerHTML = '';
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < 5; c++) {
+                    if (c === 2) { // aisle spacer
+                        const spacer = document.createElement('div');
+                        spacer.className = 'aisle';
+                        cabin.appendChild(spacer);
+                        continue;
+                    }
+                    const code = seatCode(r, c);
+                    const div = document.createElement('div');
+                    div.className = 'seat ' + (bookedSet.has(code) ? 'booked' : 'available');
+                    div.textContent = code;
+                    if (!bookedSet.has(code) && !userHasBooking) {
+                        div.addEventListener('click', () => {
+                            if (div.classList.contains('booked')) return;
+                            // toggle selection
+                            cabin.querySelectorAll('.seat.selected').forEach(el => el.classList.remove('selected'));
+                            if (selectedSeat === code) {
+                                selectedSeat = null;
+                                div.classList.remove('selected');
+                                confirmBtn.disabled = true;
+                            } else {
+                                selectedSeat = code;
+                                div.classList.add('selected');
+                                confirmBtn.disabled = false;
+                            }
+                        });
+                    }
+                    cabin.appendChild(div);
+                }
+            }
+        }
+
+        async function fetchBooked() {
+            const res = await fetch(`/book/api/trip/${tripId}/booked/`);
+            const data = await res.json();
+            return new Set(data.booked || []);
+        }
+
+        async function init() {
+            const booked = await fetchBooked();
+            renderCabin(booked);
+            if (userHasBooking) {
+                confirmBtn.disabled = true;
+            }
+        }
+
+        confirmBtn.addEventListener('click', async () => {
+            if (!selectedSeat) return;
+            const form = new FormData();
+            form.append('seat', selectedSeat);
+            const res = await fetch(`/book/api/trip/${tripId}/book/`, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': getCookie('csrftoken') },
+                body: form
+            });
+            const data = await res.json();
+            if (res.ok && data.ok) {
+                receipt.classList.remove('d-none');
+                receipt.textContent = `Booking confirmed for seat ${selectedSeat}.`; 
+                // re-fetch and re-render
+                const booked = await fetchBooked();
+                renderCabin(booked);
+                selectedSeat = null;
+                confirmBtn.disabled = true;
+            } else {
+                alert(data.error || 'Could not book seat');
+            }
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        init();
+    })();
+</script>
+{% endblock %}
+
+

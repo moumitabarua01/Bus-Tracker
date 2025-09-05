@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'authentication',
     'rest_framework',
     # 'corsheaders',
+    'seatBokking',
 ]
 
 MIDDLEWARE = [
@@ -149,16 +150,14 @@ LOGIN_REDIRECT_URL = 'authentication:dashboard'  # After successful login, redir
 LOGOUT_REDIRECT_URL = 'home'  # After logout, redirect to home page
 LOGIN_URL = 'authentication:login'  # URL to redirect to for login
 
-# Email settings for development (using console backend)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# For production, use SMTP:
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'your-email@gmail.com'
-# EMAIL_HOST_PASSWORD = 'your-app-password'
-DEFAULT_FROM_EMAIL = 'noreply@bustracker.com'
+# Email settings - Gmail SMTP for real email delivery
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ashrafulislam9858706@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'awft seab iwgo olhk'  # Replace with your Gmail App Password
+DEFAULT_FROM_EMAIL = 'ashrafulislam9858706@gmail.com'
 SITE_URL = 'http://127.0.0.1:8000'
 
 # Media files

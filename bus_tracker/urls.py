@@ -12,6 +12,7 @@ urlpatterns = [
     # path('tracking/',include("tracking.urls")),
     path('', views.home, name='home'),
     path('tracker/', include('tracker.urls')),
+    path('book/', include('seatBokking.urls', namespace='seatBokking')),
 ]
 
 # Serve media files during development

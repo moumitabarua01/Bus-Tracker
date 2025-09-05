@@ -65,6 +65,16 @@
                         {{ user.is_active|yesno:'Active,Inactive' }}
                     </span>
                 </p>
+                {% with latest=user.seat_bookings.all|dictsortreversed:"booked_at"|first %}
+                {% if latest %}
+                <div class="mt-3 p-3 rounded-3" style="background:#fff7e6;">
+                    <div class="fw-bold mb-1"><i class="fa-solid fa-ticket"></i> Your latest seat</div>
+                    <div>Trip: {{ latest.0.trip.name }} ({{ latest.0.trip.date }})</div>
+                    <div>Seat: {{ latest.0.seat_number }}</div>
+                    <div>Booked at: {{ latest.0.booked_at|date:"Y-m-d H:i" }}</div>
+                </div>
+                {% endif %}
+                {% endwith %}
             </div>
         </div>
     </div>
