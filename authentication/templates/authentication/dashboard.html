@@ -1,0 +1,81 @@
+{% extends 'authentication/base_auth.html' %}
+
+{% block title %}Dashboard - Bus Tracker{% endblock %}
+
+{% block header_subtitle %}Welcome, {{ user.first_name }}!{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-user fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Profile</h5>
+                <p class="card-text">Manage your account information</p>
+                <a href="{% url 'authentication:profile' %}" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-bus fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Bus Tracking</h5>
+                <p class="card-text">Track buses in real-time</p>
+                <a href="{% url 'live_map' %}" class="btn btn-success">
+                    <i class="fas fa-map"></i> View Map
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-key fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">Security</h5>
+                <p class="card-text">Change your password</p>
+                <a href="{% url 'authentication:password_change' %}" class="btn btn-warning">
+                    <i class="fas fa-lock"></i> Change Password
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5><i class="fas fa-info-circle"></i> Account Information</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Full Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Member Since:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
+                <p><strong>Last Login:</strong> {{ user.last_login|date:"F d, Y H:i" }}</p>
+                <p><strong>Account Status:</strong> 
+                    <span class="badge bg-{{ user.is_active|yesno:'success,danger' }}">
+                        {{ user.is_active|yesno:'Active,Inactive' }}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="auth-links mt-3">
+    <a href="{% url 'authentication:logout' %}" class="btn btn-danger">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+    <a href="{% url 'home' %}" class="btn btn-secondary">
+        <i class="fas fa-home"></i> Back to Home
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Welcome to Bus Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-bus"></i> Bus Tracker</h1>
+        <h2>Welcome to Bus Tracker!</h2>
+    </div>
+    
+    <div class="content">
+        <h3>Hello {{ user.first_name }}!</h3>
+        
+        <p>Thank you for creating an account with Bus Tracker. We're excited to have you on board!</p>
+        
+        <p>Your account has been successfully created with the following details:</p>
+        <ul>
+            <li><strong>Username:</strong> {{ user.username }}</li>
+            <li><strong>Email:</strong> {{ user.email }}</li>
+            <li><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</li>
+        </ul>
+        
+        <p>You can now:</p>
+        <ul>
+            <li>Track buses in real-time</li>
+            <li>View bus schedules</li>
+            <li>Manage your profile</li>
+            <li>Access all our features</li>
+        </ul>
+        
+        <div style="text-align: center;">
+            <a href="{{ site_url }}/authentication/login/" class="button">Sign In to Your Account</a>
+        </div>
+        
+        <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+        
+        <p>Best regards,<br>
+        The Bus Tracker Team</p>
+    </div>
+    
+    <div class="footer">
+        <p>This email was sent to {{ user.email }} because you created an account with Bus Tracker.</p>
+        <p>© 2025 Bus Tracker. All rights reserved.</p>
+    </div>
+</body>
+</html>

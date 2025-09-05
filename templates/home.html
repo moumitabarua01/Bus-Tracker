@@ -6,9 +6,46 @@
 {% endblock %}
 
 {% block content %}
-<!-- <h1 class="txt">Homepage</h1> -->
-<!-- <h1>home</h1> -->
-
+<!-- Welcome Message for Authenticated Users -->
+{% if user.is_authenticated %}
+<div class="container mt-4">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">
+            <i class="fas fa-hand-wave"></i> Welcome back, {{ user.first_name|default:user.username }}!
+        </h4>
+        <p>You're successfully logged in. You can now access all features of the Bus Tracker system.</p>
+        <hr>
+        <div class="d-flex gap-2">
+            <a href="{% url 'authentication:dashboard' %}" class="btn btn-success btn-sm">
+                <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+            </a>
+            <a href="{% url 'live_map' %}" class="btn btn-primary btn-sm">
+                <i class="fas fa-map"></i> View Live Map
+            </a>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% else %}
+<!-- Call to Action for Non-Authenticated Users -->
+<div class="container mt-4">
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">
+            <i class="fas fa-info-circle"></i> Get Started with Bus Tracker
+        </h4>
+        <p>Sign up for a free account to access all features including live bus tracking, schedules, and personalized dashboard.</p>
+        <hr>
+        <div class="d-flex gap-2">
+            <a href="{% url 'authentication:signup' %}" class="btn btn-primary btn-sm">
+                <i class="fas fa-user-plus"></i> Sign Up Now
+            </a>
+            <a href="{% url 'authentication:login' %}" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <!-- Slider -->
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">

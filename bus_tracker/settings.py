@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bus',
     'tracker',
+    'authentication',
     'rest_framework',
     # 'corsheaders',
 ]
@@ -142,7 +143,25 @@ STATICFILES_DIRS=[
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_REDIRECT_URL = 'home'  # After successful login, redirect to home
-# LOGOUT_REDIRECT_URL = 'login'  # After logout, redirect to login page
-LOGOUT_REDIRECT_URL = '/accounts/login/'  # Adjust as needed
+# Authentication settings
+# AUTH_USER_MODEL = 'authentication.CustomUser'  # Temporarily disabled for migration
+LOGIN_REDIRECT_URL = 'authentication:dashboard'  # After successful login, redirect to dashboard
+LOGOUT_REDIRECT_URL = 'home'  # After logout, redirect to home page
+LOGIN_URL = 'authentication:login'  # URL to redirect to for login
+
+# Email settings for development (using console backend)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# For production, use SMTP:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'
+DEFAULT_FROM_EMAIL = 'noreply@bustracker.com'
+SITE_URL = 'http://127.0.0.1:8000'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
