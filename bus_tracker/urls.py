@@ -13,6 +13,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('tracker/', include('tracker.urls')),
     path('book/', include('seatBokking.urls', namespace='seatBokking')),
+    path('api/chatbot/', views.chatbot_api, name='chatbot_api'),
 ]
 
 # Serve media files during development

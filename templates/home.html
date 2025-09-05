@@ -3,6 +3,91 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'style.css' %}">
+<style>
+    /* Bus Carousel Styling */
+    #busCarousel {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    #busCarousel .carousel-indicators {
+        bottom: -50px;
+        margin-bottom: 0;
+    }
+    
+    #busCarousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.3);
+        border: 2px solid transparent;
+        margin: 0 5px;
+        transition: all 0.3s ease;
+    }
+    
+    #busCarousel .carousel-indicators button.active {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        transform: scale(1.2);
+    }
+    
+    #busCarousel .carousel-control-prev,
+    #busCarousel .carousel-control-next {
+        width: 50px;
+        height: 50px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.8;
+        transition: all 0.3s ease;
+    }
+    
+    #busCarousel .carousel-control-prev:hover,
+    #busCarousel .carousel-control-next:hover {
+        opacity: 1;
+        background-color: rgba(13, 110, 253, 0.9);
+    }
+    
+    #busCarousel .carousel-control-prev {
+        left: -25px;
+    }
+    
+    #busCarousel .carousel-control-next {
+        right: -25px;
+    }
+    
+    #busCarousel .carousel-control-prev-icon,
+    #busCarousel .carousel-control-next-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    #busCarousel .carousel-item {
+        transition: transform 0.6s ease-in-out;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #busCarousel .carousel-control-prev,
+        #busCarousel .carousel-control-next {
+            width: 40px;
+            height: 40px;
+        }
+        
+        #busCarousel .carousel-control-prev {
+            left: -20px;
+        }
+        
+        #busCarousel .carousel-control-next {
+            right: -20px;
+        }
+        
+        #busCarousel .carousel-indicators {
+            bottom: -40px;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -11,7 +96,7 @@
         <div class="row align-items-center">
             <div class="col-lg-6 py-5">
                 <div class="d-flex align-items-center gap-3 mb-3">
-                    <img src="{% static 'bus/bus_icon.svg' %}" alt="Bus Icon" width="48" height="48">
+                    <img src="{% static 'bus/bus-logo.png' %}" alt="Bus Icon" width="48" height="48">
                     <span class="badge rounded-pill bg-primary-subtle text-primary">Live tracking</span>
                 </div>
                 <h1 class="display-5 fw-bold text-dark">Know where your bus is. Every minute.</h1>
@@ -31,7 +116,32 @@
                 </div>
             </div>
             <div class="col-lg-6 py-5 text-center">
-                <img class="img-fluid rounded-4 shadow-lg hero-visual" src="{% static 'bus/bus4.jpg' %}" alt="Live bus tracking map">
+                <div id="busCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#busCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Bus 1"></button>
+                        <button type="button" data-bs-target="#busCarousel" data-bs-slide-to="1" aria-label="Bus 2"></button>
+                        <button type="button" data-bs-target="#busCarousel" data-bs-slide-to="2" aria-label="Bus 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="img-fluid rounded-4 shadow-lg hero-visual" src="{% static 'bus/bus4.jpg' %}" alt="Bus 1 - Live tracking">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="img-fluid rounded-4 shadow-lg hero-visual" src="{% static 'bus/bus2.png' %}" alt="Bus 2 - Live tracking">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="img-fluid rounded-4 shadow-lg hero-visual" src="{% static 'bus/bus3.png' %}" alt="Bus 3 - Live tracking">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#busCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#busCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

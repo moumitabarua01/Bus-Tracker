@@ -7,39 +7,42 @@
 
 {% block content %}
 
+<style>
+    .schedule-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .schedule-header h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    .schedule-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 0;
+    }
+    .table-responsive {
+        overflow-x: auto;
+    }
+    .schedule-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+</style>
 
-<!-- <img src="static/schedule.png" alt="bus schedule">
-<img src="schedule.png" class="d-block w-100 mx-auto p-3 rounded-5 overflow-hidden" alt="bus image">
-<div class="carousel-item active"> -->
-<div>
-    <img src="{% static 'bus/registration/schedule.png' %}" class="d-block mx-auto p-5 rounded-5 overflow-hidden w-50"
-        alt="bus image">
+<div class="schedule-header">
+    <div class="container">
+        <h1><i class="fa-solid fa-bus me-3"></i>Bus Schedule</h1>
+        <p>Jatiya Kabi Kazi Nazrul Islam University</p>
+    </div>
 </div>
 
-
-<!-- <img src="{% static 'schedule.png' %}" alt="bus schedule"> -->
-
-<hr>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Schedule</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: sans-serif; /* Use a suitable font */
-        }
-        .table-responsive {
-            overflow-x: auto; /* Enable horizontal scrolling if needed */
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h2 class="mt-4 text-center">Bus Schedule</h2>
+<div class="schedule-container">
     <div class="table-responsive">
         <table class="table table-bordered text-center">
             <thead>
@@ -148,11 +151,5 @@
         </table>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
 
 {% endblock %}

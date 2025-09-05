@@ -15,9 +15,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 def booking_home(request):
     trips = Trip.objects.order_by("date")
     if not trips.exists():
-        # seed a default trip for convenience
+        # seed default trips for convenience
         from datetime import date
-        Trip.objects.create(name="Agnibina", date=date.today())
+        Trip.objects.create(name="Ronobheri", date=date.today())
+        Trip.objects.create(name="Bhorer Alo", date=date.today())
         trips = Trip.objects.order_by("date")
     return render(request, "seatBokking/home.html", {"trips": trips})
 
