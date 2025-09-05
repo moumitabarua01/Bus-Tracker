@@ -1,109 +1,138 @@
-/* General Styles */
+/* Design tokens */
+:root {
+    --bg-page: #FCEF91; /* fallback */
+    --text-main: #1f2430;
+    --text-muted: #6b7280;
+    --primary: #1e73e8;
+    --primary-100: #e7f0ff;
+    --success-100: #e9f9ef;
+    --warning-100: #fff7e6;
+    --card-bg: #ffffff;
+    --shadow-sm: 0 6px 24px rgba(16, 24, 40, 0.06);
+    --btn-grad-start: #8B5CF6; /* purple */
+    --btn-grad-end: #3B82F6;   /* blue */
+    --bg-grad-start: #C8FF8C;  /* lime */
+    --bg-grad-end: #22D3A6;    /* teal */
+}
+
+/* Base */
 body {
-    font-family: Arial, sans-serif;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--text-main);
+    background: linear-gradient(90deg, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
+}
+
+main {
+    min-height: 60vh;
+}
+
+/* Navbar tweaks */
+.navbar .nav-link {
+    color: #4b5563;
+}
+.navbar .nav-link:hover {
+    color: var(--primary);
+}
+.btn-primary-subtle {
+    background: var(--primary-100);
+    color: var(--primary);
+}
+
+/* Unified gradient buttons across all variants */
+.btn.btn-primary,
+.btn.btn-secondary,
+.btn.btn-success,
+.btn.btn-danger,
+.btn.btn-warning,
+.btn.btn-info,
+.btn.btn-dark,
+.btn.btn-light {
+    background-image: linear-gradient(90deg, var(--btn-grad-start) 0%, var(--btn-grad-end) 100%);
+    border: 0;
+    color: #ffffff;
+}
+.btn.btn-primary:hover,
+.btn.btn-secondary:hover,
+.btn.btn-success:hover,
+.btn.btn-danger:hover,
+.btn.btn-warning:hover,
+.btn.btn-info:hover,
+.btn.btn-dark:hover,
+.btn.btn-light:hover,
+.btn.btn-primary:focus,
+.btn.btn-secondary:focus,
+.btn.btn-success:focus,
+.btn.btn-danger:focus,
+.btn.btn-warning:focus,
+.btn.btn-info:focus,
+.btn.btn-dark:focus,
+.btn.btn-light:focus {
+    filter: brightness(1.03);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+}
+
+/* Outline variants: also use the same gradient fill */
+.btn.btn-outline-primary,
+.btn.btn-outline-secondary,
+.btn.btn-outline-success,
+.btn.btn-outline-danger,
+.btn.btn-outline-warning,
+.btn.btn-outline-info,
+.btn.btn-outline-dark,
+.btn.btn-outline-light {
+    background-image: linear-gradient(90deg, var(--btn-grad-start) 0%, var(--btn-grad-end) 100%);
+    color: #ffffff;
+    border: 0;
+}
+
+/* Hero */
+.hero {
+    padding-top: 6rem; /* account for fixed navbar */
+    background: transparent;
+}
+.hero-visual {
+    border-radius: 16px;
+}
+.hero .badge {
+    background: var(--primary-100) !important;
+}
+.hero-gradient {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* Features */
+.features .icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+.features .card {
+    background: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+}
+.features p {
     margin: 0;
-    padding: 0;
-    background-color: #879eb3;
 }
 
-/* Navbar Styling */
-.navbar {
-    padding: 10px 20px;
+/* CTA */
+.cta .rounded-4 {
+    border-radius: 1rem !important;
 }
 
-.navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
+/* Warm gradient for CTA (green → yellow → orange) */
+.cta-gradient {
+    background: linear-gradient(45deg, #2E7D32 0%, #FFF176 35%, #FFB300 60%, #FF6D00 85%);
+    color: #1f2430;
 }
 
-/* Navbar Buttons */
-.navbar .btn {
-    font-size: 14px;
-    padding: 5px 10px;
+/* Solid yellow CTA option */
+.cta-yellow {
+    background: #FCEF91;
+    color: #1f2430;
 }
-
-/* Search Bar */
-.form-control {
-    width: 100%;
-    max-width: 250px;
-}
-
-/* Carousel Styling */
-.carousel-inner img {
-    max-width: 90%;
-    height: auto;
-    margin: auto;
-    border-radius: 20px;
-}
-
-/* Responsive Design */
-@media (max-width: 992px) {
-    .navbar .navbar-toggler {
-        border: none;
-        outline: none;
-    }
-    
-    .navbar-collapse {
-        text-align: center;
-        background-color: #17a2b8; /* Same as bg-info */
-        padding: 10px;
-        border-radius: 5px;
-    }
-
-    .navbar-nav {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .navbar-nav .nav-item {
-        margin-bottom: 10px;
-    }
-}
-
-@media (max-width: 768px) {
-    .navbar-brand {
-        font-size: 1.2rem;
-    }
-
-    .navbar .btn {
-        font-size: 12px;
-        padding: 4px 8px;
-    }
-
-    .form-control {
-        max-width: 200px;
-    }
-
-    .carousel-inner img {
-        max-width: 100%;
-        padding: 10px;
-        border-radius: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .navbar-brand {
-        font-size: 1rem;
-    }
-
-    .navbar .btn {
-        font-size: 10px;
-        padding: 3px 6px;
-    }
-
-    .form-control {
-        max-width: 150px;
-    }
-
-    .carousel-inner img {
-        max-width: 100%;
-        padding: 5px;
-        border-radius: 10px;
-    }
-}
-
-.carousel-inner img {
-    border-radius: 20px !important; /* Ensures rounded corners */
-    overflow: hidden; /* Prevents padding from affecting the rounded corners */
-}
-

@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import BusLocation
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 
 @csrf_exempt
@@ -40,16 +41,16 @@ def update_location(request):
 
 
 # Render the map page
+@login_required
 def live_map(request):
     return render(request, 'tracker/map.html')
 
 
 
+@login_required
 def get_latest_location(request):
     latest_location = BusLocation.objects.order_by('-id').first()
-    
     if latest_location:
         return JsonResponse({"lat": latest_location.lat, "lng": latest_location.lng})
-    
     return JsonResponse({"lat": None, "lng": None})  # Return None if no data exists
 
