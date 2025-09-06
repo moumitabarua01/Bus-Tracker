@@ -3,7 +3,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import BusLocation
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 
 
 @csrf_exempt
@@ -14,17 +13,21 @@ def update_location(request):
             print("Received JSON:", raw_data)  # Debugging
             data = json.loads(raw_data)
 
-            lat = data.get('lat')
-            lng = data.get('lng')
 
-            if lat is not None and lng is not None:
-                if lat == 0.0 and lng == 0.0:  # Ignore invalid data
-                    return JsonResponse({'status': 'error', 'message': 'Invalid GPS data'}, status=400)
+            # Simple validation: lat/lng must be floats and not None
+            if lat is None or lng is None:
+                return JsonResponse({'status': 'error', 'message': 'Missing parameters'}, status=400)
+            try:
+                lat = float(lat)
+                lng = float(lng)
+            except (TypeError, ValueError):
+                return JsonResponse({'status': 'error', 'message': 'Latitude and longitude must be numbers.'}, status=400)
 
-                BusLocation.objects.create(lat=lat, lng=lng)
-                return JsonResponse({'status': 'success'})
+            if lat == 0.0 and lng == 0.0:
+                return JsonResponse({'status': 'error', 'message': 'Invalid GPS data'}, status=400)
 
-            return JsonResponse({'status': 'error', 'message': 'Missing parameters'}, status=400)
+            BusLocation.objects.create(lat=lat, lng=lng)
+            return JsonResponse({'status': 'success'})
 
         except json.JSONDecodeError as e:
             return JsonResponse({'status': 'error', 'message': f'Invalid JSON: {str(e)}'}, status=400)
@@ -41,16 +44,23 @@ def update_location(request):
 
 
 # Render the map page
-@login_required
+
 def live_map(request):
-    return render(request, 'tracker/map.html')
+    # Example: Set a session variable
+    request.session['visited_map'] = True
+
+    # Example: Set a cookie
+    response = render(request, 'tracker/map.html')
+    response.set_cookie('visited_map', 'yes', max_age=3600)  # 1 hour
+    return response
 
 
 
-@login_required
 def get_latest_location(request):
     latest_location = BusLocation.objects.order_by('-id').first()
+    
     if latest_location:
         return JsonResponse({"lat": latest_location.lat, "lng": latest_location.lng})
+    
     return JsonResponse({"lat": None, "lng": None})  # Return None if no data exists
 

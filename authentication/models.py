@@ -23,7 +23,7 @@ class UserProfile(models.Model):
         help_text='Your current location',
         validators=[RegexValidator(
             message='Location can only contain letters, spaces, hyphens, commas, and periods',
-            regex='^[a-zA-Z\\s\\-,\\.]+$'
+            regex=r'^[a-zA-Z\s\-,\\.]+$'
         )]
     )
     birth_date = models.DateField(
@@ -39,7 +39,7 @@ class UserProfile(models.Model):
         help_text='Upload a profile picture (JPG, PNG, GIF)',
         validators=[RegexValidator(
             message='Only JPG, PNG, and GIF files are allowed',
-            regex='^.*\\.(jpg|jpeg|png|gif)$',
+            regex=r'^.*\.(jpg|jpeg|png|gif)$',
             flags=0
         )]
     )
@@ -58,7 +58,7 @@ class UserProfile(models.Model):
         help_text='Emergency contact phone number',
         validators=[RegexValidator(
             message='Emergency phone number must be entered in the format: "+999999999". Up to 15 digits allowed.',
-            regex='^\\+?1?\\d{9,15}$'
+            regex=r'^\+?1?\d{9,15}$'
         )]
     )
     is_verified = models.BooleanField(default=False)
@@ -70,7 +70,7 @@ class UserProfile(models.Model):
         help_text='Your phone number (optional)',
         validators=[RegexValidator(
             message='Phone number must be entered in the format: "+999999999". Up to 15 digits allowed.',
-            regex='^\\+?1?\\d{9,15}$'
+            regex=r'^\+?1?\d{9,15}$'
         )]
     )
     

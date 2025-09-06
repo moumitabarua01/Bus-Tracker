@@ -23,7 +23,7 @@ class Trip(models.Model):
         max_length=128,
         validators=[RegexValidator(
             message='Trip name can only contain letters, numbers, spaces, hyphens, and underscores',
-            regex='^[a-zA-Z0-9\\s\\-_]+$'
+            regex=r'^[a-zA-Z0-9\s\-_]+$'
         )]
     )
     date = models.DateField(validators=[validate_future_date])
@@ -35,6 +35,10 @@ class Trip(models.Model):
     price = models.DecimalField(decimal_places=2, default=0.0, max_digits=8)
     total_seats = models.PositiveIntegerField(default=50)
     updated_at = models.DateTimeField(auto_now=True)
+    # New fields for trip details
+    route = models.CharField(max_length=256, blank=True, null=True, help_text='Route of the bus trip')
+    trip_time = models.CharField(max_length=64, blank=True, null=True, help_text='Time of the bus trip (e.g. 8:00 AM)')
+    day = models.CharField(max_length=32, blank=True, null=True, help_text='Day of the trip (e.g. Monday)')
 
     class Meta:
         ordering = ['date', 'departure_time']
