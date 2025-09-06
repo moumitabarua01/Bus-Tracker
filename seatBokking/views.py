@@ -10,6 +10,12 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.utils.timezone import now
 from django.contrib.admin.views.decorators import staff_member_required
+try:
+    from notifications.utils import create_notification
+except ImportError:
+    # Fallback if notifications app is not available
+    def create_notification(*args, **kwargs):
+        pass
 
 
 def booking_home(request):
@@ -67,6 +73,19 @@ def api_book_seat(request, trip_id: int):
                 return JsonResponse({"ok": False, "error": "This seat was just booked by another passenger. Please select a different seat."}, status=400)
             
             booking = SeatBooking.objects.create(trip=trip, seat_number=seat, user=request.user)
+            
+            # Create notification for successful booking
+            create_notification(
+                user=request.user,
+                title="Seat Booking Confirmed! 🎉",
+                message=f"Your seat {seat} has been successfully booked for {trip.name} on {trip.date}.",
+                notification_type='booking_confirmed',
+                priority='high',
+                trip_id=trip.id,
+                booking_id=booking.id,
+                send_push=True,
+                send_email=True
+            )
             
             # Send email confirmation
             try:

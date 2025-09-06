@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_framework',
     # 'corsheaders',
     'seatBokking',
+    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -163,4 +164,16 @@ SITE_URL = 'http://127.0.0.1:8000'
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Notification configuration (simplified without WebSockets)
+
+# Notification settings
+NOTIFICATION_TYPES = {
+    'BOOKING_CONFIRMED': 'booking_confirmed',
+    'BOOKING_CANCELLED': 'booking_cancelled',
+    'BUS_DELAY': 'bus_delay',
+    'BUS_ARRIVED': 'bus_arrived',
+    'SEAT_AVAILABLE': 'seat_available',
+    'TRIP_UPDATE': 'trip_update',
+}
 
