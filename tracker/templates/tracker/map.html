@@ -10,7 +10,7 @@
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            box-sizing: border-box; and solve
         }
         
         body {
@@ -108,7 +108,8 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         // Initialize map
-        const map = L.map('map').setView([24.58, 90.37], 13);
+        {% comment %} const map = L.map('map').setView([24.58, 90.37], 13); {% endcomment %}
+        const map = L.map('map').setView([0, 0], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
         }).addTo(map);

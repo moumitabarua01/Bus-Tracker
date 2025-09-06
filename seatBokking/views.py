@@ -44,21 +44,34 @@ def api_booked_seats(request, trip_id: int):
 @login_required
 @require_POST
 def api_book_seat(request, trip_id: int):
+    from django.db import transaction, IntegrityError
+    
     trip = get_object_or_404(Trip, id=trip_id)
     seat = request.POST.get("seat")
     if not seat:
         return HttpResponseBadRequest("Missing seat")
+    
     # Enforce: one seat per user per trip
     if SeatBooking.objects.filter(user=request.user, trip=trip).exists():
         return JsonResponse({"ok": False, "error": "You already booked a seat for this trip."}, status=400)
-    # Try create booking
+    
+    # Check if seat is already booked by someone else
+    if SeatBooking.objects.filter(trip=trip, seat_number=seat).exists():
+        return JsonResponse({"ok": False, "error": "This seat is already booked by another passenger."}, status=400)
+    
+    # Try create booking with atomic transaction
     try:
-        booking = SeatBooking.objects.create(trip=trip, seat_number=seat, user=request.user)
-        
-        # Send email confirmation
-        try:
-            subject = f'Seat Booking Confirmation - {trip.name}'
-            message = f'''
+        with transaction.atomic():
+            # Double-check seat availability within transaction
+            if SeatBooking.objects.filter(trip=trip, seat_number=seat).exists():
+                return JsonResponse({"ok": False, "error": "This seat was just booked by another passenger. Please select a different seat."}, status=400)
+            
+            booking = SeatBooking.objects.create(trip=trip, seat_number=seat, user=request.user)
+            
+            # Send email confirmation
+            try:
+                subject = f'Seat Booking Confirmation - {trip.name}'
+                message = f'''
 Dear {request.user.first_name or request.user.username},
 
 Your seat booking has been confirmed!
@@ -72,20 +85,27 @@ Thank you for choosing our bus service.
 
 Best regards,
 Bus Tracker Team
-            '''
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [request.user.email],
-                fail_silently=False,
-            )
-        except Exception as e:
-            # Log error but don't fail the booking
-            print(f"Email sending failed: {e}")
-            
-    except Exception:
-        return JsonResponse({"ok": False, "error": "Seat already booked"}, status=400)
+                '''
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [request.user.email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                # Log error but don't fail the booking
+                print(f"Email sending failed: {e}")
+                
+    except IntegrityError as e:
+        # Handle database constraint violations
+        if 'unique constraint' in str(e).lower():
+            return JsonResponse({"ok": False, "error": "This seat was just booked by another passenger. Please select a different seat."}, status=400)
+        else:
+            return JsonResponse({"ok": False, "error": "Database error occurred. Please try again."}, status=500)
+    except Exception as e:
+        return JsonResponse({"ok": False, "error": "An unexpected error occurred. Please try again."}, status=500)
+    
     return JsonResponse({"ok": True})
 
 
